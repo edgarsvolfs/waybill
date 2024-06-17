@@ -14,7 +14,7 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const app = express();
 const jwt = require('jsonwebtoken');
-const secretKey = ''; // Change this to a secure key
+const secretKey = ${{ secrets.secretKey}}; // Change this to a secure key
 
 
 app.use((req, res, next) => {
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 
 
 //app.use(cors(corsOptions));
-const MONGODB_URI = "";
+const MONGODB_URI = = ${{ secrets.MONGODB_URI}};
 mongoose.connect(MONGODB_URI, {
 });
 
@@ -72,8 +72,8 @@ passport.deserializeUser(function (user, done) {
 });
 
 passport.use(new GoogleStrategy({
-  clientID: '',
-  clientSecret: '',
+  clientID: ${{ secrets.clientID}},
+  clientSecret: ${{ secrets.clientSecret}},
   callbackURL: "http://localhost:8000/auth/google/callback"
 },
   function (accessToken, refreshToken, profile, cb) {
@@ -104,9 +104,6 @@ app.get('/auth/google/callback',
       res.redirect(302, '/uploadFile');
     });
   });
-
-
-
 
 
   
@@ -145,31 +142,6 @@ app.get('/getFilename', (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get('/uploadFile', function (req, res) {
   // Access the user information from session
   const user = req.session.user;
@@ -179,11 +151,6 @@ app.get('/uploadFile', function (req, res) {
     // Handle the case where user is undefined (e.g., redirect to login page)
     return res.redirect('/');
   }
-  console.log('111111');
-  console.log(user.name.givenName);
-  console.log(user.name.familyName);
-
-
 
   res.cookie('name', user.name.givenName);
   res.cookie('surname', user.name.familyName);
@@ -380,19 +347,4 @@ app.post('/test', async (req, res) => {
 
 
 
-
-
-
-
-
-
-app.listen(8000);
-console.log('listening to port 8000');
-
-
-
-
-
-
-
-
+app.listen(process.env.port || 8000, () => console.log('listening on port ${port}'));
