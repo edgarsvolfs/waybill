@@ -1,0 +1,254 @@
+.logo-container {
+    position: absolute;
+    width: 1000px;
+    height: 100%;
+    pointer-events: none;  /* Allows interaction with elements behind the logo */
+    z-index: 1;
+    top: 10px;
+}
+.logo {
+    position: absolute;
+    width: 770px;
+    z-index: 1;  /* Lower z-index to place it behind main content */
+    height: 80px;
+}
+main {
+    position: relative;
+    z-index: 2;  /* Higher z-index to place it above the logo */
+
+}
+
+
+#loadingScreen {
+    display: none; /* Initially hidden */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgb(170, 170, 170); /* Semi-transparent background */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    border: 8px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top: 8px solid white;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.blur {
+    filter: blur(50px); /* Adjust as needed */
+    opacity: 0.01; /* 1% opacity to simulate 99% blur */
+    pointer-events: none; /* Prevent interaction with blurred content */
+}
+
+
+
+.textarea_table {
+    
+    font-size: 100%;
+    text-align: center;
+    width: 95%;
+    /* box-sizing: border-box;  */
+
+    /* resize: none;*/
+    overflow: hidden; /* Hide scrollbars */
+}
+
+
+
+
+/* Set default styles for the body */
+body {
+
+    font-family: 'Arial', sans-serif;
+    font-size: 90%;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* Headings */
+h1, h3 {
+    z-index: 2;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+hr {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+
+/* Form styling */
+form {
+    background: #fff;
+
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+
+.column {
+    float: left;
+    width: 65%;
+}
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+} 
+.row {
+    float: left;
+    width: 100%;
+}
+/* .form-row {
+    margin-bottom: 5px;
+}  */
+input {
+    border: none;
+    font-weight: bold;
+}
+.input1 {
+    height: 15px;
+    width: 300px;
+}
+.input2 {
+    height: 15px;
+    width: 160px;
+}
+.input3 {
+    display: inline-block;
+    border-bottom: 2px solid black; 
+    width: 315px;
+}
+.div1 {
+    width: 70px; 
+    display: inline-block;
+}
+.span1 {
+    display: inline-block; 
+    text-align: center; 
+    width: 315px;
+}
+
+
+
+textarea {
+    border: none;
+    /* box-sizing: border-box; */
+    display: inline-block;
+    /* border: none; */
+    /* border: 2px solid #ccc; */
+    font-weight: bold;
+    /* font-family: "Times New Roman", Times, serif; */
+    /* text-size-adjust: 16px; */
+    vertical-align: middle; 
+}
+
+
+.label {
+    display: inline-block;
+    width: 140px; /* Adjust the width as needed */
+    text-align: left; /* Align text to the right within the label */
+    padding-right: 6px;
+}
+.label2 {
+    display: inline-block;
+    width: 65px; /* Adjust the width as needed */
+    text-align: left; /* Align text to the right within the label */
+   
+}
+.table-data {
+    padding-bottom: 3px;
+    width: 85%;        /* Set width to auto to allow content to determine width */
+    display: inline-block;
+    clear: both;        /* Ensure each div starts on a new line */
+    text-align: right;  
+   
+}
+.table-data-calculated{
+    padding-bottom: 3px;
+    width: 4%;        /* Set width to auto to allow content to determine width */
+    display: inline-block;
+    clear: both;        /* Ensure each div starts on a new line */
+    text-align: right;  
+    padding-left: 10px;
+}
+
+
+
+
+
+
+table {
+    border-collapse: collapse;
+    display: inline-block; /* Set display to inline-block */
+    width: 100%;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left; /* Align text to the left */
+}
+th {
+    background-color: #f2f2f2; /* Background color for table headers */
+}
+td > input[type='text'], td > input[type='number']
+{
+    width: 90%;
+    display:inline; /*this will make the text box fill the horizontal space of the its container td*/
+}
+
+
+.container2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+  /* Styles for the button */
+button {
+    display: none;
+    z-index: 0;
+}
+
+.back-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #6c757d;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/waybillsStyle.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/waybills.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <button class="back-button" onclick="goBack()">Atgriezties</button>
+    <div class="">
+
+        <div class="title">Maksājumu reģistrs
+
+        </div>
+
+
+        <div class="list-container">
+
+
+            <div class="search-container">
+
+                <!-- <input type="text" id="search" placeholder="Meklēt..."> -->
+
+                <div class="group">
+                    <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                        <g>
+                            <path
+                                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                            </path>
+                        </g>
+                    </svg>
+                    <input placeholder="Meklēt..." id="search" type="search" class="input">
+
+                    <button style="display: none;" id="add-filter">Add Filter</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dokumenta nr.</th>
+                        <th style="width: 200px;">Datums <button class="sort-button"
+                                onclick="sortItemsByDate()"></button></th>
+                        <th style="width: 140px;">Izveidoja</th>
+                        <th style="width: 300px;">Saņēmējs</th>
+                        <th style="width: 100px;">Ar PVN apl. summa</th>
+                        <th style="width: 60px;">PVN</th>
+                        <th style="width: 120px;">Summa kopā<button class="sort-button"
+                                onclick="sortItemsBySum()"></button></th>
+                        <th></th>
+                        <th></th>
+
+                        <th style="width: 100px;">
+
+                            <div style="display: flex;">
+                                <!-- <button onclick="exportToExcel()">Exportēt</button> -->
+                                <div class="content" style="padding-right: 10px;">
+                                    <label class="checkBox">
+                                        <input id="ch1" type="checkbox" onclick="checkAllCheckboxes()">
+                                        <div class="transition"></div>
+                                    </label>
+                                </div>
+
+
+
+                                <button class="Btn" onclick="exportToExcel()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" class="svgIcon">
+                                        <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+                                    </svg>
+                                    <span class="icon2"></span>
+                                    <span class="tooltip">Exportēt uz excel</span>
+                                </button>
+                            </div>
+
+
+
+                            <!-- <button onclick="checkAllCheckboxes()">Check All</button> -->
+
+                        </th>
+                    </tr>
+                </thead>
+                <div id="active-filters"></div>
+                <tbody id="items-list"></tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div id="loadingScreen">
+        <div class="spinner"></div>
+    </div>
+
+</body>
+
+</html>

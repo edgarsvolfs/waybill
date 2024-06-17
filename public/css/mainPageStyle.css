@@ -1,0 +1,29 @@
+body {
+    background: linear-gradient(45deg, #fffefe, #a7a7a7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button-container button {
+    padding: 12px 24px;
+    font-size: 18px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    outline: none;
+}
+
+.button-container button:hover {
+    background-color: #0056b3;
+}
