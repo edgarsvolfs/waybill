@@ -27,6 +27,34 @@ setTimeout(function () {
 }, 800);
 
 
+// window.onload = function () {
+//     addRow();
+//     var today = new Date();
+//     var today_plus_10 = new Date();
+//     today_plus_10.setDate(today.getDate() + 10);
+//     var options = { year: 'numeric', month: 'long', day: 'numeric' };
+//     var formattedDate = today.toLocaleDateString('lv-LV', options);
+//     var formattedDate2 = today_plus_10.toLocaleDateString('lv-LV', options);
+
+//     document.getElementById('todaysDate').textContent = formattedDate;
+//     document.getElementById('delivery_date').value = formattedDate;
+//     document.getElementById('payment_date_due').value = formattedDate2;
+//     //var fileCount = getFilesCount();
+//     //console.log('count ', fileCount);
+//     //const paddedNumber = String(fileCount).padStart(4, '0');
+//     //document.getElementById('waybill_number').value = paddedNumber;
+
+//     //switchStyles();
+
+//     getFilesCount().then(data => {
+//         const paddedNumber = String(data).padStart(4, '0');
+//         document.getElementById('waybill_number').textContent += paddedNumber;
+//     })
+//     adjustAllTextareas();
+//     document.getElementById("loadingScreen").style.display = "none";
+
+// };
+
 
 function adjustAllTextareas() {
     document.querySelectorAll('textarea').forEach(textarea => {
@@ -35,15 +63,16 @@ function adjustAllTextareas() {
 }
 
 
-const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider(); // Use 'GoogleAuthProvider' directly
-    provider.setCustomParameters({ prompt: 'select_account' });
-    try {
-        await signInWithPopup(auth, provider); // Use 'provider' directly here
-    } catch (error) {
-        alert(error.message);
-    }
-};
+// const signInWithGoogle = async () => {
+//     const provider = new GoogleAuthProvider(); // Use 'GoogleAuthProvider' directly
+//     provider.setCustomParameters({ prompt: 'select_account' });
+//     try {
+//         await signInWithPopup(auth, provider); // Use 'provider' directly here
+//         console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+//     } catch (error) {
+//         alert(error.message);
+//     }
+// };
 
 
 
@@ -116,67 +145,67 @@ function addRow() {
         newRow.insertCell(3),
         newRow.insertCell(4),
         newRow.insertCell(5),
-        newRow.insertCell(6),
-        newRow.insertCell(7)
+        newRow.insertCell(6) //,
+        // newRow.insertCell(7)
     ];
 
-    cells[0].innerHTML = '<textarea class="textarea_table" id="table_input_code_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
-    cells[1].innerHTML = '<textarea class="textarea_table input_wider" id="table_input_name_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
-    cells[2].innerHTML = '<textarea class="textarea_table" id="table_input_unit_of_measure_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
-    cells[3].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_amount_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
-    cells[4].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_price_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
-    cells[5].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_discount_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
-    cells[6].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_vat_number_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
-    cells[7].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_total_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
+    // cells[0].innerHTML = '<textarea class="textarea_table" id="table_input_code_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
+    cells[0].innerHTML = '<textarea class="textarea_table input_wider" id="table_input_name_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
+    cells[1].innerHTML = '<textarea class="textarea_table" id="table_input_unit_of_measure_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
+    cells[2].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_amount_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
+    cells[3].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_price_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
+    cells[4].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_discount_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
+    cells[5].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_vat_number_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
+    cells[6].innerHTML = '<textarea class="textarea_table" type="number" id="table_input_total_' + table.rows.length + '" oninput="textAreaAdjust(this)"></textarea>';
     console.log("addded " + ' table_input_amount_' + table.rows.length);
-    function textAreaAdjust(textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = (textarea.scrollHeight) + 'px';
-    }
+    // function textAreaAdjust(textarea) {
+    //     textarea.style.height = 'auto';
+    //     textarea.style.height = (textarea.scrollHeight) + 'px';
+    // }
 
 
 
 
-    cells[3].querySelector('textarea').addEventListener('input', (function (rowIndex) { // DAUDZUMS
+    cells[2].querySelector('textarea').addEventListener('input', (function (rowIndex) { // DAUDZUMS
         return function () {
-            let daudzums = cells[3].querySelector('textarea').value;
-            let cena = cells[4].querySelector('textarea').value;
-            let atlaide = cells[5].querySelector('textarea').value;
-            let pvn = cells[6].querySelector('textarea').value;
+            let daudzums = cells[2].querySelector('textarea').value;
+            let cena = cells[3].querySelector('textarea').value;
+            let atlaide = cells[4].querySelector('textarea').value;
+            let pvn = cells[5].querySelector('textarea').value;
 
             calculate_fields(rowIndex, daudzums, cena, atlaide, pvn);
 
         };
     })(table.rows.length)); // Pass table.rows.length to create a closure
 
-    cells[4].querySelector('textarea').addEventListener('input', (function (rowIndex) { //CENA
+    cells[3].querySelector('textarea').addEventListener('input', (function (rowIndex) { //CENA
         return function () {
-            let daudzums = cells[3].querySelector('textarea').value;
-            let cena = cells[4].querySelector('textarea').value;
-            let atlaide = cells[5].querySelector('textarea').value;
-            let pvn = cells[6].querySelector('textarea').value;
+            let daudzums = cells[2].querySelector('textarea').value;
+            let cena = cells[3].querySelector('textarea').value;
+            let atlaide = cells[4].querySelector('textarea').value;
+            let pvn = cells[5].querySelector('textarea').value;
             calculate_fields(rowIndex, daudzums, cena, atlaide, pvn);
 
         };
     })(table.rows.length));
 
-    cells[5].querySelector('textarea').addEventListener('input', (function (rowIndex) { // ATLAIDE
+    cells[4].querySelector('textarea').addEventListener('input', (function (rowIndex) { // ATLAIDE
         return function () {
-            let daudzums = cells[3].querySelector('textarea').value;
-            let cena = cells[4].querySelector('textarea').value;
-            let atlaide = cells[5].querySelector('textarea').value;
-            let pvn = cells[6].querySelector('textarea').value;
+            let daudzums = cells[2].querySelector('textarea').value;
+            let cena = cells[3].querySelector('textarea').value;
+            let atlaide = cells[4].querySelector('textarea').value;
+            let pvn = cells[5].querySelector('textarea').value;
             calculate_fields(rowIndex, daudzums, cena, atlaide, pvn);
 
         };
     })(table.rows.length));
 
-    cells[6].querySelector('textarea').addEventListener('input', (function (rowIndex) { // PVN
+    cells[5].querySelector('textarea').addEventListener('input', (function (rowIndex) { // PVN
         return function () {
-            let daudzums = cells[3].querySelector('textarea').value;
-            let cena = cells[4].querySelector('textarea').value;
-            let atlaide = cells[5].querySelector('textarea').value;
-            let pvn = cells[6].querySelector('textarea').value;
+            let daudzums = cells[2].querySelector('textarea').value;
+            let cena = cells[3].querySelector('textarea').value;
+            let atlaide = cells[4].querySelector('textarea').value;
+            let pvn = cells[5].querySelector('textarea').value;
             calculate_fields(rowIndex, daudzums, cena, atlaide, pvn);
 
         };
@@ -195,7 +224,7 @@ function addRow() {
 
             let summa_ar_atlaidi = (((daudzums * cena) / 100) * (100 - atlaide)).toFixed(2);
             // console.log(summa_ar_atlaidi);
-            cells[7].querySelector('textarea').value = summa_ar_atlaidi; //SUMMA
+            cells[6].querySelector('textarea').value = summa_ar_atlaidi; //SUMMA
             discount_amount_arr[rowIndex] = ((daudzums * cena) / 100) * atlaide; // Ievieto atlaides daudzumu discount_amount_arr
             document.getElementById('discount_table_display').textContent = sumArray(discount_amount_arr);
 
@@ -411,7 +440,7 @@ function handlePDF(pdf) {
 
     try {
         for (let i = 2; i <= rowCount; i++) {
-            appendDataSameNameId('table_input_code_' + i);
+            // appendDataSameNameId('table_input_code_' + i);
             appendDataSameNameId('table_input_name_' + i);
             appendDataSameNameId('table_input_unit_of_measure_' + i);
             appendDataSameNameId('table_input_amount_' + i);
