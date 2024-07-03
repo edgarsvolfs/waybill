@@ -14,6 +14,7 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const app = express();
 const jwt = require('jsonwebtoken');
+
 require('dotenv').config({ path: './values.env' });
 
 const secretKeyEnv = process.env.secretKey;
@@ -23,6 +24,7 @@ const clientIDEnv = process.env.ClientID;
 const clientSecretEnv = process.env.clientSecret;
 
 const secretKey = secretKeyEnv;  // Change this to a secure key
+
 
 
 app.use((req, res, next) => {
@@ -36,7 +38,9 @@ app.use((req, res, next) => {
 
 
 //app.use(cors(corsOptions));
+
 const MONGODB_URI = MONGODB_URIEnv;
+
 mongoose.connect(MONGODB_URI, {
 });
 
@@ -82,6 +86,7 @@ passport.deserializeUser(function (user, done) {
 passport.use(new GoogleStrategy({
   clientID: clientIDEnv,
   clientSecret: clientSecretEnv,
+
   callbackURL: "http://localhost:8000/auth/google/callback"
 },
   function (accessToken, refreshToken, profile, cb) {
@@ -175,7 +180,6 @@ app.get('/listUsers', async (req, res) => {
 });
 
 
-
 app.get('/generateToken', (req, res) => {
   const filename = req.query.filename;
 
@@ -210,6 +214,23 @@ app.get('/getFilename', (req, res) => {
 
 
 
+
+
+app.get('/uploadFile', function (req, res) {
+  // Access the user information from session
+  const user = req.session.user;
+
+  // Check if user is undefined before rendering the page
+  if (!user) {
+    // Handle the case where user is undefined (e.g., redirect to login page)
+    return res.redirect('/');
+  }
+
+  res.cookie('name', user.name.givenName);
+  res.cookie('surname', user.name.familyName);
+  // Render the uploadFile page and pass the user information
+  res.redirect('mainPage.html');
+});
 
 
 app.post('/update/:filename', upload.single('file'), async (req, res) => {
@@ -402,19 +423,4 @@ app.post('/test', async (req, res) => {
 
 
 
-
-
-
-
-
-
-app.listen(8000);
-console.log('listening to port 8000');
-
-
-
-
-
-
-
-
+app.listen(process.env.port || 8000, () => console.log('listening on port ${port}'));
