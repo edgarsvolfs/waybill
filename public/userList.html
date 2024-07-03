@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lietotāju saraksts</title>
+  <link id="styleSheet" rel="stylesheet" href="css/userListStyle.css">
+  <script src="js/userList.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <button class="back-button" onclick="goBack()">Atgriezties</button>
+    <h1>Lietotāju saraksts</h1>
+    <button id="openAddUserModal">Pievienot lietotāju</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Vārds</th>
+          <th>Uzvārds</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="user-list">
+        <!-- Users will be listed here -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add User Modal -->
+  <div id="addUserModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeAddUserModal">&times;</span>
+      <form id="addUserForm">
+        <label for="addName">Vārds:</label>
+        <input type="text" id="addName" required>
+        <label for="addSurname">Uzvārds:</label>
+        <input type="text" id="addSurname" required>
+        <div class="button-container">
+          <button type="submit">Pievienot lietotāju</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete User Modal -->
+  <div id="deleteUserModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeDeleteUserModal">&times;</span>
+      <p id="deleteUserMessage">Vai tiešām vēlaties dzēst šo lietotāju?</p>
+      <div class="button-container">
+        <button id="confirmDeleteUser">Jā</button>
+        <button id="cancelDeleteUser">Nē</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

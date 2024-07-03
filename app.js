@@ -14,7 +14,17 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const app = express();
 const jwt = require('jsonwebtoken');
-const secretKey = ${{ secrets.secretKey}}; // Change this to a secure key
+
+require('dotenv').config({ path: './values.env' });
+
+const secretKeyEnv = process.env.secretKey;
+const MONGODB_URIEnv = process.env.MONGODB_URI;
+const secretEnv = process.env.secret;
+const clientIDEnv = process.env.ClientID;
+const clientSecretEnv = process.env.clientSecret;
+
+const secretKey = secretKeyEnv;  // Change this to a secure key
+
 
 
 app.use((req, res, next) => {
@@ -28,7 +38,9 @@ app.use((req, res, next) => {
 
 
 //app.use(cors(corsOptions));
-const MONGODB_URI = = ${{ secrets.MONGODB_URI}};
+
+const MONGODB_URI = MONGODB_URIEnv;
+
 mongoose.connect(MONGODB_URI, {
 });
 
@@ -52,7 +64,7 @@ const corsOptions = {
 };
 
 app.use(session({
-  secret: '',
+  secret: secretEnv,
   resave: false,
   saveUninitialized: false
 }));
@@ -72,8 +84,9 @@ passport.deserializeUser(function (user, done) {
 });
 
 passport.use(new GoogleStrategy({
-  clientID: ${{ secrets.clientID}},
-  clientSecret: ${{ secrets.clientSecret}},
+  clientID: clientIDEnv,
+  clientSecret: clientSecretEnv,
+
   callbackURL: "http://localhost:8000/auth/google/callback"
 },
   function (accessToken, refreshToken, profile, cb) {
@@ -90,23 +103,83 @@ app.get('/auth/google',
 
 
 
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function (req, res) {
-    req.session.user = req.user;
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), function (req, res) {
+  req.session.user = req.user;
 
-    // Save the session before redirecting
-    req.session.save(function (err) {
-      if (err) {
-        console.log(err);
-        return res.redirect('/login');
-      }
-      res.redirect(302, '/uploadFile');
-    });
+  // Save the session before redirecting
+  req.session.save(function (err) {
+    if (err) {
+      console.log(err);
+      return res.redirect('/index');
+    }
+    res.redirect(302, '/userInfo');
   });
+});
 
 
-  
+
+app.get('/userInfo', async (req, res) => {
+  // Access the user information from session
+  const users = await db.collection('userAccess').find().toArray();
+  const user = req.session.user;
+  const userFullName = `${user.name.givenName} ${user.name.familyName}`;
+  // Check if user is undefined before rendering the page
+  if (!user) {
+    return res.status(403).json({ error: 'Kļūda pieslēdzoties' });
+  }
+  const hasAccess = users.some(user => `${user.name} ${user.surname}` === userFullName);
+  if (!hasAccess) {
+    console.log(userFullName);
+    return res.status(403).json({ error: 'Nav piešķirta pieeja' });
+  }
+  console.log(user.name.givenName);
+  console.log(user.name.familyName);
+
+  res.cookie('name', user.name.givenName);
+  res.cookie('surname', user.name.familyName);
+  res.redirect('mainPage.html');
+});
+
+
+// Endpoint to add a new user
+app.post('/addUser', async (req, res) => {
+  const { name, surname } = req.body;
+  try {
+    await db.collection('userAccess').insertOne({ name, surname });
+    res.status(200).json({ message: 'User added successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to add user' });
+  }
+});
+
+// Endpoint to delete a user
+app.delete('/deleteUser', async (req, res) => {
+  const { name, surname } = req.body;
+  try {
+    await db.collection('userAccess').deleteOne({ name, surname });
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
+
+
+
+
+app.get('/listUsers', async (req, res) => {
+  try {
+    const users = await db.collection('userAccess').find().toArray();
+    res.status(200).json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+
 app.get('/generateToken', (req, res) => {
   const filename = req.query.filename;
 
@@ -142,6 +215,7 @@ app.get('/getFilename', (req, res) => {
 
 
 
+
 app.get('/uploadFile', function (req, res) {
   // Access the user information from session
   const user = req.session.user;
@@ -157,9 +231,6 @@ app.get('/uploadFile', function (req, res) {
   // Render the uploadFile page and pass the user information
   res.redirect('mainPage.html');
 });
-
-
-
 
 
 app.post('/update/:filename', upload.single('file'), async (req, res) => {
@@ -288,6 +359,18 @@ app.get('/metadata/:filename', async (req, res) => {
 
 
 
+app.post('/isAdmin', async (req, res) => {
+  const admins = await db.collection('admins').find().toArray();
+  const requestData = req.body;
+  const userFullName = `${requestData.name} ${requestData.surname}`;
+  const isAdmin = admins.some(admin => `${admin.name} ${admin.surname}` === userFullName);
+
+  res.json({ isAdmin: isAdmin });
+});
+
+
+
+
 
 
 app.post('/test', async (req, res) => {
@@ -298,20 +381,13 @@ app.post('/test', async (req, res) => {
   const requestData = req.body;
   // Handle the requestData
   //console.log('Received data:', requestData);
-
-
-
-  // const { name, surname } = req.cookies;
   const userFullName = `${requestData.name} ${requestData.surname}`;
-  // console.log('fn ' + userFullName);
   const isAdmin = admins.some(admin => `${admin.name} ${admin.surname}` === userFullName);
-  // console.log('true or false ' + isAdmin);
-  //console.log('fullanem' + userFullName);
+
 
 
 
   if (!requestData) {
-    console.log('errrre');
     return res.redirect('/');
   }
 
